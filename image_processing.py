@@ -2,8 +2,8 @@
 import sys
 import numpy as np
 import pandas as pd
-import pymysql
-sys.path.insert(0,'/usr/lib/chromium-browser/chromedriver')
+#import pymysql
+#sys.path.insert(0,'/usr/lib/chromium-browser/chromedriver')
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome('chromedriver',chrome_options=chrome_options)
 
@@ -28,9 +29,18 @@ data = pd.read_csv("datafeed.csv")
 data["RRPEx"] = data["RRPEx"].str.replace(',', '')
 data["RRPEx"] = data["RRPEx"].astype(float)
 df = data[data["RRPEx"]>= 2]
-df["images"] = get_image(df["StockCode"])
+df["images"] = np.nan
 
-data.to_csv("result.csv")
+for i in range(len(df['StockCode'])):
+  try:
+    df["images"][i] = get_image(df["StockCode"][i])
+  except:
+    df["images"][i] = None
+  
+  
+  
+
+df.to_csv("result.csv")
 
 
 
