@@ -1,3 +1,4 @@
+
 import sys
 import numpy as np
 import pandas as pd
@@ -29,9 +30,7 @@ data["RRPEx"] = data["RRPEx"].astype(float)
 df = data[data["RRPEx"]>= 2]
 df["images"] = get_image(df["StockCode"])
 
-number_images = len(df["images"])
-sku_change = len(data["StockCode"]) - len(df["StockCode"])
-
+data.to_csv("result.csv")
 
 
 
