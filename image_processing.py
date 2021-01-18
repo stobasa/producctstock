@@ -36,7 +36,7 @@ for i in range(len(df['StockCode'])):
     df["images"][i] = get_image(df["StockCode"][i])
   except:
     df["images"][i] = None
-  
+  print( str(i) + " done out of" + str(len(df['StockCode'])))
   
   
 
